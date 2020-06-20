@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="wrap">
+        {{ 123 }} 
+        {{ '文字' }}
+        {{ true }}
+        {{ [ '刘','刘','刘' ]  }}
+        {{ {name:'Alice',age: '45' } }}
+        {{ 1+1 }}
+        {{ !0 }} 
+        {{ 1+1===2? '对':'错'}}
+        {{deng.c}}
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            data:{
+                deng:{
+                    a:1,
+                    b:2
+                }
+            }
+        })
+
+        app.$mount("#wrap")
+
+    </script>
+</body>
+
+</html>
