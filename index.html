@@ -12,12 +12,7 @@
 
 <body>
     <div id="app">
-        <template v-show="show">
-            <h1>成功</h1>
-            <h2>努力</h2>
-            <h3>不放弃</h3>
-
-        </template>
+        <div v-bind:text-content.prop="text"></div>
 
      
     </div>
@@ -27,9 +22,7 @@
         const vm = new Vue({
             el: "#app",
             data: {
-                msg: "yes!!!",
-                msg6: "I can",
-                show:1
+                text:"加油"
             }
         })
     </script>
