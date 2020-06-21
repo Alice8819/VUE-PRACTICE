@@ -8,34 +8,32 @@
 </head>
 
 <body>
-    <div id="wrap">
-        {{ show }}
+
+    <script src= "./observer.js"></script>
+    <!-- <div id="wrap">
+        {{ arr }}
+        {{obj}}
     </div>
+
     <script src="./vue.js"></script>
+
     <script>
         const vm = new Vue({
             data:{
-                show:123,
+                arr:[1,2,3],
+                name:"Alice",
+                obj:{
+                    lastN:"Wang",
+                    age:32,
+                }
             }
         })
 
-        vm.$mount("#wrap")
+        vm.$mount("#wrap") -->
 
-        vm.show = 888;
-        console.log(vm.show,vm.$el.innerHTML)
-        //vm.$el.innerHTML  因为vue操作dom是异步的，所以一开始拿到的dom里的值还是原来的。
 
-        vm.$nextTick(function () {    //  此函数会在dom渲染完后，立马被调用
-            console.log(vm.show,vm.$el.innerHTML);  
-            console.log(this);   //  Vue实例对象
-        })
-
-        Vue.nextTick(function () {  // 同上面函数一样  区别是this指向 
-            console.log(vm.show,vm.$el.innerHTML)
-            console.log(this);   //  window
-        })
-
-    </script>
+        
+    <!-- </script> -->
 </body>
 
 </html>
