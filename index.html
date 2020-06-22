@@ -5,88 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
     <div id="app">
-        <div class="header">
-            <div class="container">
-                <h2 class="logo">toDoList</h2>
-                <div class="input-area">
-                    <input type="text" v-model="content">
-                    <button @click="addToList">添加</button>
-                </div>
-            </div>
-
-        </div>
-        <div class="container">
-
-            <div class="mask-list">
-                <h2>正在进行
-                    <span class="mask-num">{{onGoing.length}}</span>
-                </h2>
-                <ul>
-                    <li v-for="item,index in onGoing" :key="item">
-                        <div>
-                            <input type="checkbox" name="" id="" @change="handleChange(index,'need')">
-                            <span>{{item}}</span>
-                        </div>
-                        <button @click="deleteItem(index,'need')">删除</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="mask-list complete-list">
-                <h2>已经完成
-                    <span class="mask-num">{{finished.length}}</span>
-                </h2>
-                <ul>
-                    <li v-for="item,index in finished" :key="item">
-                        <div>
-                            <input type="checkbox" name="" id="" @change="handleChange(index,'complete')" checked>
-                            <span>{{item}}</span>
-                        </div>
-                        <button @click="deleteItem(index,'complete')">删除</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
+        <input v-model.number="age" type="number">
+        {{age}}
+      </div>
 
     <script src="vue.js"></script>
+
     <script>
         const vm = new Vue({
             el: "#app",
             data: {
-                content: "",
-                onGoing: [],
-                finished: [],
+                age:"",
             },
-            methods: {
-                addToList() {
-                    if (this.content === "") {
-                        return;
-                    }
-                    this.onGoing.push(this.content);
-                    this.content = "";
-                },
-                handleChange(index, flag) {
-                    if (flag == "need") {
-                        const deleteItem = this.onGoing.splice(index, 1);
-                        this.finished.push(...deleteItem)
-                    } else {
-                        const returnItem = this.finished.splice(index, 1);
-                        this.onGoing.push(...returnItem);
-                    }
-
-                },
-
-                deleteItem(index, flag) {
-                    const list = flag == "need" ? this.onGoing : this.finished;
-                    list.splice(index, 1);
-                }
-            }
+           
         })
 
 
