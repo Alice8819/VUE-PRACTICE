@@ -12,9 +12,18 @@
 
 <body>
     <div id="app">
-        <div v-bind:text-content.prop ="text"></div>
+        <ul>
+            <li v-for="item,index in obj" :key="item.name">
+                <span>{{item.name}}</span>
+                <input type="text">
+                <button @click="changePosition(index)">下移</button>
+            </li>
+        </ul>
+        <ul>
+            <li v-for="str of str">{{str}}</li>
+        </ul>
 
-     
+
     </div>
 
     <script src="vue.js"></script>
@@ -22,7 +31,19 @@
         const vm = new Vue({
             el: "#app",
             data: {
-                text:"加油"
+                obj: [
+                    { name: "A", age: 100, grade: 1 },
+                    { name: "B", age: 200, grade: 2 },
+                    { name: "C", age: 300, grade: 3 },
+                ],
+                n:10,
+                str:"Alice",
+            },
+            methods: {
+                changePosition(index) {
+                    const deleteItem = this.obj.splice(index,1);
+                    this.obj.splice(index+1,0,...deleteItem);
+                }
             }
         })
     </script>
