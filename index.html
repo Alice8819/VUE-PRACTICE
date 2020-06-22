@@ -9,9 +9,17 @@
 
 <body>
     <div id="app">
-        <input v-model.number="age" type="number">
-        {{age}}
-      </div>
+        <input type="number" v-model.number.lazy="num1">
+        <select name="" id="" v-model="cal">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="x">x</option>
+            <option value="/">/</option>
+        </select>
+        <input type="number" v-model.number.lazy="num2">
+        <button @click="plus">=</button>
+        {{result}}
+    </div>
 
     <script src="vue.js"></script>
 
@@ -19,9 +27,36 @@
         const vm = new Vue({
             el: "#app",
             data: {
-                age:"",
+                num1: 0,
+                num2: 0,
+                result: 0,
+                cal:"+"
             },
-           
+            methods: {
+                plus() {
+                    const num1 = this.num1;
+                    const num2 = this.num2;
+                    const cal = this.cal;
+                    
+                    const {num1,num2,cal} = this;
+
+                    switch(cal){
+                        case "+" :
+                           this.result = num1 + num2;
+                            break;
+                        case "-" :
+                            this.result = num1 - num2;
+                            break;
+                        case "x" :
+                            this.result = num1 * num2;
+                            break;
+                        case "/" :
+                            this.result = num1 / num2;
+                            break;
+                    }
+                }
+            }
+
         })
 
 
