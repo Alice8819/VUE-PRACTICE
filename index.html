@@ -10,28 +10,47 @@
 
 <body>
     <div id="app">
-        <ul>
-            <li v-for="item,itemIndex of goodsList" :key="item.id" class="goods">
-                {{item.title}}
-                <ul class="type-list">
-                    <li v-for="each,eachIndex in item.typeList" :key="each" class="type"
-                        :class="{active:eachIndex==item.index}" @click="addToList(each,eachIndex,item,itemIndex)">
-                        {{each}}</li>
-                </ul>
-            </li>
-        </ul>
+        <div class="header">
+            <div class="container">
+                <h2 class="logo">toDoList</h2>
+                <div class="input-area">
+                    <input type="text" v-model="content">
+                    <button @click="addToList">添加</button>
+                </div>
+            </div>
 
-        <div class="selected choose-type">
-            已选条件：
-            <span v-if="showFlag" class="no-goods">暂时没有选择过滤条件</span>
-            <ul v-else class="filter-list">
-                <li v-for="item,key in selected">{{item}}
-                    <span @click="deleteSelected(key)">x</span>
-                </li>
-
-            </ul>
         </div>
+        <div class="container">
 
+            <div class="mask-list">
+                <h2>正在进行
+                    <span class="mask-num">{{onGoing.length}}</span>
+                </h2>
+                <ul>
+                    <li v-for="item,index in onGoing" :key="item">
+                        <div>
+                            <input type="checkbox" name="" id="" @change="handleChange(index,'need')">
+                            <span>{{item}}</span>
+                        </div>
+                        <button @click="deleteItem(index,'need')">删除</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="mask-list complete-list">
+                <h2>已经完成
+                    <span class="mask-num">{{finished.length}}</span>
+                </h2>
+                <ul>
+                    <li v-for="item,index in finished" :key="item">
+                        <div>
+                            <input type="checkbox" name="" id="" @change="handleChange(index,'complete')" checked>
+                            <span>{{item}}</span>
+                        </div>
+                        <button @click="deleteItem(index,'complete')">删除</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
     </div>
 
@@ -40,64 +59,36 @@
         const vm = new Vue({
             el: "#app",
             data: {
-                goodsList: [
-                    {
-                        title: '上装:',
-                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
-                        id: 1,
-                    },
-                    {
-                        title: '裤装:',
-                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
-                        id: 2,
-                    },
-                    {
-                        title: '裙装:',
-                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
-                        id: 3,
-                    }
-                ],
-
-                selected: {},
-                showFlag: true,
+                content: "",
+                onGoing: [],
+                finished: [],
             },
             methods: {
-                addToList(each, eachIndex, item, itemIndex) {
-                    // 添加
-                    if(each === "全部"){
-                        this.goodsList[itemIndex].index = 0;
-                        this.deleteSelected(itemIndex);
+                addToList() {
+                    if (this.content === "") {
                         return;
                     }
-                    this.$set(this.selected, itemIndex, each);
-                    this.showFlag = false;
-
-                    // active 显示
-                    this.goodsList[itemIndex].index = eachIndex;
-
+                    this.onGoing.push(this.content);
+                    this.content = "";
                 },
-
-
-                deleteSelected(key) {
-                    // 删除
-                    this.$delete(this.selected, key);
-                    this.handleShowFlag();   // 当为{}时，显示文字
-
-                    // active 显示
-                    this.goodsList[key].index = 0;
-                },
-
-                handleShowFlag() {
-                    if(JSON.stringify(this.selected) === "{}"){
-                        this.showFlag = true;
+                handleChange(index, flag) {
+                    if (flag == "need") {
+                        const deleteItem = this.onGoing.splice(index, 1);
+                        this.finished.push(...deleteItem)
+                    } else {
+                        const returnItem = this.finished.splice(index, 1);
+                        this.onGoing.push(...returnItem);
                     }
+
+                },
+
+                deleteItem(index, flag) {
+                    const list = flag == "need" ? this.onGoing : this.finished;
+                    list.splice(index, 1);
                 }
             }
         })
 
-        vm.goodsList.map((item, index) => {
-            vm.$set(item, "index", 0);
-        })
 
     </script>
 
