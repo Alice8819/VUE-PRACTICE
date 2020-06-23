@@ -10,50 +10,75 @@
 
 <body>
     <div id="app">
-        <div class="logo">
-            <img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="">
+        <div class="username">
+            <input type="text" placeholder="请输入用户名" v-model="name" maxlength="100">
         </div>
-        <div class="search-box">
-            <span class="search-area">
-                <input type="text" name="" id="" v-model="searchVal" @focus="focus=true" @blur="focus=false">
-                <span class="icon icon-paizhao"></span>
-            </span>
-            <button class="search-btn">百度一下</button>
+        <div class="mail">
+            <input type="text" placeholder="请输入邮箱" v-model="email">
         </div>
-        <ul class="search-list" v-show="getSearch.length !== 0 && focus">
-            <li v-for="val in getSearch" :key="val">{{val}}</li>
+        <div class="upload-btn" @click="upload">上传</div>
+        <div class="test-btn" @click="testJsonp">jsonp测试</div>
+        <div class="show-btn" @click="getData">获取</div>
+        <ul class="person-list" v-if="dataList.length">
+            <li class="person" v-for="item in dataList">
+                <span>{{item.name}}</span>
+                <span>{{item.mail}}</span>
+            </li>
         </ul>
     </div>
 
     <script src="vue.js"></script>
-    <script src="jquery.js"></script>
+    <script src="vue-resource.js"></script>
 
     <script>
         const vm = new Vue({
             el: "#app",
             data: {
-                focus: false,
-                searchVal: ' ',   //  得有个空格，不然可能是ajax请求原因会报错
-                getSearch: [],
+                name: "",
+                email: "",
+                dataList: [],
+                msg: "",
             },
             watch: {
-                searchVal() {
-                    $.ajax({
-                        url: "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
-                        dataType: 'jsonp',
-                        data: {
-                            wd: this.searchVal,
-                            cb: 'vm.callback'
-                        }
-                    })
-                },
+                msg() {
+                    alert(this.msg);
+                }
             },
             methods: {
-                callback(res) {
-                    this.getSearch = res.s;
+                upload() {
+                    this.$http.post("https://developer.duyiedu.com/vue/setUserInfo", {
+                        name: this.name,
+                        mail: this.email,
+                    }).then(res => this.msg = res.body.msg).catch(err => console.log(err))
+                },
+                getData() {
+                    this.$http.get("https://developer.duyiedu.com/vue/getUserInfo").then(res => {
+                        this.msg = res.body.msg;
+                        this.dataList = res.data.data;
+                    }).catch(err => console.log(err))
+                },
+                testJsonp() {
+                    // this.$http.jsonp("https://developer.duyiedu.com/vue/jsonp").then(res=>console.log(res))
+                    this.$http.jsonp("https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su", {
+                        params: {
+                            wd: '百度',
+                        },
+                        jsonp: 'cb',
+                    }).then(res => console.log(res))
                 }
             }
         })
+
+        // 练习_仿百度搜索联想
+        // url: https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su
+
+        // 请求方式：jsonp
+
+        // 发送参数：
+
+        // wd：字符串，搜索的文字
+        // cb：字符串，callback函数的名字
+        // 返回结果：（JSON格式）
 
     </script>
 
