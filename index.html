@@ -17,7 +17,6 @@
             <input type="text" placeholder="请输入邮箱" v-model="email">
         </div>
         <div class="upload-btn" @click="upload">上传</div>
-        <div class="test-btn" @click="testJsonp">jsonp测试</div>
         <div class="show-btn" @click="getData">获取</div>
         <ul class="person-list" v-if="dataList.length">
             <li class="person" v-for="item in dataList">
@@ -28,9 +27,15 @@
     </div>
 
     <script src="vue.js"></script>
-    <script src="vue-resource.js"></script>
+    <script src="axios.js"></script>
 
     <script>
+        // const instance = axios.create({
+        //     baseURL: "https://developer.duyiedu.com/vue",
+        //     timeout: 1000,
+        // })
+        axios.defaults.baseURL = "https://developer.duyiedu.com/vue";
+
         const vm = new Vue({
             el: "#app",
             data: {
@@ -46,39 +51,31 @@
             },
             methods: {
                 upload() {
-                    this.$http.post("https://developer.duyiedu.com/vue/setUserInfo", {
-                        name: this.name,
-                        mail: this.email,
-                    }).then(res => this.msg = res.body.msg).catch(err => console.log(err))
+                    // instance.post('/setUserInfo',{
+                    //         name: "Alice",
+                    //         mail: "293888@qq.com"
+                    //     }).then(res => {
+                    //     this.msg = res.data.msg;
+                    // })
+
+                    axios.all([
+                        axios.get('/getUserInfo'),
+                        axios.post('/setUserInfo',{
+                            name: "Alice",
+                            mail: "293888@qq.com"
+                        })
+                    ]).then(axios.spread((gRes,pRes)=>{
+                        console.log(gRes,pRes)
+                    }))
                 },
                 getData() {
-                    this.$http.get("https://developer.duyiedu.com/vue/getUserInfo").then(res => {
-                        this.msg = res.body.msg;
-                        this.dataList = res.data.data;
-                    }).catch(err => console.log(err))
+                    instance.get('/getUserInfo').then(res => {
+                        this.msg = res.data.msg;
+                        this.dataList = res.data.data
+                    })
                 },
-                testJsonp() {
-                    // this.$http.jsonp("https://developer.duyiedu.com/vue/jsonp").then(res=>console.log(res))
-                    this.$http.jsonp("https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su", {
-                        params: {
-                            wd: '百度',
-                        },
-                        jsonp: 'cb',
-                    }).then(res => console.log(res))
-                }
             }
         })
-
-        // 练习_仿百度搜索联想
-        // url: https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su
-
-        // 请求方式：jsonp
-
-        // 发送参数：
-
-        // wd：字符串，搜索的文字
-        // cb：字符串，callback函数的名字
-        // 返回结果：（JSON格式）
 
     </script>
 
