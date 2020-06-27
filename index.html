@@ -10,8 +10,6 @@
 
 <body>
   <div id="app">
-    <my-cmp1></my-cmp1>
-    <my-cmp2></my-cmp2>
 
 
   </div>
@@ -24,59 +22,33 @@
 
   <script>
 
-    Vue.mixin({
-      created (){
-        if(this.$options.xxx){
-          console.log("全局混入")
-        }
-      }
-    })
-    Vue.component('my-cmp1', {
-      template: `<div>cmp1</div>`,
-      // mixins: [mixin],
-      data() {
-        return {
-          name:"Wang",
-        }
-      },
-      xxx:'xxx',
-      mounted(){
-        this.hello();
-      },
-      methods: {
-        hello() {
-          // console.log('自己的hello函数');
-        },
-      }
-    })
 
-    Vue.component('my-cmp2', {
-      template: `<div>cmp2</div>`,
-      // mixins: [mixin],
-      data() {
-        return {
-          name: "Wang",
-        }
-      },
-      mounted(){
-        // console.log("self")
+    Vue.directive('slice', (el, binding, vnode, oldVnode) => {
+      let { modifiers, value, arg, expression } = binding;
+      value = value.toString();
+
+      if (modifiers.number) {
+        value = value.replace(/\D/g, '');
       }
+      
+      value = value.slice(0, arg);
+
+      el.value = value;
+      vnode.context[expression] = el.value;   // 事件外面拿到vue实例要用vnode.context
+
+      el.oninput = function () {
+        value = el.value;      // value更新，触发update钩子函数，上面函数会再执行一次
+        vm[expression] = value;  //  input事件里可以直接使用 vm
+      }
+      
     })
 
     const vm = new Vue({
       el: "#app",
+      template: `<input type="text" v-slice:3.number='inputValue'>`,
       data: {
-
+        inputValue: 'dfie8766',
       },
-      mounted() {
-
-      },
-      watch: {
-
-      },
-      methods: {
-
-      }
     })
 
 
