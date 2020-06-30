@@ -114,29 +114,40 @@ export default {
       };
     },
     handleSelectDay(time) {
-      this.dateObj = this.getFormattedDate(time); // 更新时间为点击的时间
+      if (time.getMonth() !== this.dateObj.month) {
+        this.dateObj = this.getFormattedDate(time); // 更新时间为点击的时间
+      }
       this.$emit("change-date", time);
       this.panelShow = false;
     },
-    handleChangeYear(type){
-        const move = type === "--"? -1:1;
-        this.dateObj.year += move;
+    handleChangeYear(type) {
+      const move = type === "--" ? -1 : 1;
+      this.dateObj.year += move;
     },
-    handleChangeMonth(type){
-        const {year,month,dat} = this.dateObj;
-        const move = type === '--' ? -1:1;
-        const getDate = new Date(year,month,dat);
-        getDate.setMonth(month + move);
-        const {year:newYear,month:newMonth} = this.getFormattedDate(getDate);
-        this.dateObj.year = newYear;
-        this.dateObj.month = newMonth;
+    handleChangeMonth(type) {
+      const { year, month, dat } = this.dateObj;
+      const move = type === "--" ? -1 : 1;
+      const getDate = new Date(year, month, dat);
+      getDate.setMonth(month + move);
+      const { year: newYear, month: newMonth } = this.getFormattedDate(getDate);
+      this.dateObj.year = newYear;
+      this.dateObj.month = newMonth;
     },
     compare(date) {
       const { year, month, dat } = this.getFormattedDate(date);
-      const {year: yearToday, month: monthToday,dat: datToday} = this.getFormattedDate(new Date());
-      const {year: yearDate,month: monthDate,dat: datDate} = this.getFormattedDate(this.date);
+      const {
+        year: yearToday,
+        month: monthToday,
+        dat: datToday
+      } = this.getFormattedDate(new Date());
+      const {
+        year: yearDate,
+        month: monthDate,
+        dat: datDate
+      } = this.getFormattedDate(this.date);
 
-      return { //
+      return {
+        //
         nextmonth: year === this.dateObj.year && month === this.dateObj.month,
         today: year === yearToday && month === monthToday && dat === datToday,
         select: year === yearDate && month === monthDate && dat === datDate
@@ -144,7 +155,7 @@ export default {
     },
     updateDateObj() {
       this.dateObj = this.getFormattedDate(this.date);
-    },
+    }
   }
 };
 </script>
