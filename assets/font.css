@@ -1,33 +1,20 @@
 @font-face {
-    font-family: "iconfont"; /* project id 1909098 */
-    src: url("./font/iconfont.eot");
-    src: url("./font/iconfont.eot?#iefix")
-        format("embedded-opentype"),
-      url("./font/iconfont.woff2") format("woff2"),
-      url("./font/iconfont.woff") format("woff"),
-      url("./font/iconfont.ttf") format("truetype"),
-      url("./font/iconfont.svg#iconfont") format("svg");
-  }
-  .iconfont {
-      font-family:'iconfont';
-      font-style:normal;
-  }
-  
-  .icon-input::before {
-      content:'\e63d';
-  }
-
-  .icon-prev-year::before {
-      content:'\e645'
-  }
-  .icon-next-year::before {
-    content:'\e646'
-  }
-
-  
-  .icon-prev-month::before {
-    content:'\e712'
+  font-family: 'iconfont';  /* project id 1913494 */
+  src: url('./font/iconfont.eot');
+  src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'),
+  url('./font/iconfont.woff2') format('woff2'),
+  url('./font/iconfont.woff') format('woff'),
+  url('./font/iconfont.ttf') format('truetype'),
+  url('./font/iconfont.svg#iconfont') format('svg');
 }
-.icon-next-month::before {
-  content:'\e718'
+
+.iconfont {
+  font-family:'iconfont';
+}
+
+.iconfont.iconfont-down::before{
+  content:'\e6bd';
+}
+.iconfont.iconfont-right::before{
+  content:'\e620';
 }
