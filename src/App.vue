@@ -1,19 +1,24 @@
 <template>
-  <div id="app" class="app" style="background:red">
-    ++++++++++++++
-   <base-date>test</base-date>
+  <div id="app" >
+    <base-demo4 />
   </div>
 </template>
 
 <script>
-import BaseDate from './components/BaseDate'
+import BaseDemo4 from './components/BaseDemo4'
 
 export default {
-  name: 'app',
   components: {
-    BaseDate
-  }
-}
+    BaseDemo4
+  },
+  name: "app",
+  data() {
+    return {
+     
+    };
+  },
+};
 </script>
+
 
 

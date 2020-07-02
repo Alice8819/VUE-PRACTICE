@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
+import 'animate.css'
+import 'velocity-animate'
 
 Vue.config.productionTip = false
 
@@ -9,5 +11,5 @@ new Vue({
 
 //模板：
 // render (createElement) {
-//   createElement('h' + this.level , this.$slots.default)   // 创建虚拟DOM  虚拟DOM描述
+//   const vnode = createElement('h' + this.level , this.$slots.default)   // 创建虚拟DOM  虚拟DOM描述
 // }
