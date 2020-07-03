@@ -1,20 +1,26 @@
 <template>
   <div id="app" >
-    <base-demo4 />
+    <button @click="show = !show">点击</button>
+    <base-demo>
+      <div key="world" v-if="show">Hello World</div>
+      <div key="alice" v-else>Hello Alice</div>
+    </base-demo>
+        <!-- <base-demo>
+      <div v-if="show">Hello Alice</div>
+    </base-demo> -->
   </div>
 </template>
 
 <script>
-import BaseDemo4 from './components/BaseDemo4'
+import BaseDemo from './components/BaseDemo1'
 
 export default {
   components: {
-    BaseDemo4
+    BaseDemo
   },
-  name: "app",
   data() {
     return {
-     
+     show:true,
     };
   },
 };
